@@ -1,0 +1,98 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\EmployeeTask;
+use App\Models\Shop;
+use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Validator;
+
+class TaskAssignApiController extends Controller
+{
+    public function showTask($id = null)
+    {
+        try {
+            $tasks = ($id === null)
+                ? EmployeeTask::all()
+                : EmployeeTask::where('user_id', $id)->with('assignByShop')->get();
+
+            return response()->json(['task' => $tasks], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function findTask($id, $date)
+    {
+        try {
+            $tasks = EmployeeTask::where('user_id', $id)
+                ->whereDate('assign_date', '=', $date)
+                ->with('assignByShop')
+                ->get();
+
+            if ($tasks->isEmpty()) {
+                return response()->json(['message' => 'No tasks found.', 'task'=>[]], 200);
+            }
+
+            return response()->json(['task' => $tasks], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function taskAssign(Request $request)
+    {
+        try {
+            if ($request->isMethod('POST')) {
+                $validator = Validator::make($request->all(), [
+                    'shop_id' => 'required|array',
+                    'user_id' => 'required',
+                    'assign_date' => 'required',
+                ]);
+
+                if ($validator->fails()) {
+                    return response()->json($validator->errors()->all(), 422);
+                }
+
+                $shop_ids = $request->shop_id;
+                $user_id = $request->user_id;
+                $assign_date = $request->assign_date;
+
+                foreach ($shop_ids as $shop_id) {
+                    $shop_details = Shop::find($shop_id);
+                    $task = new EmployeeTask();
+                    $task->user_id = $user_id;
+                    $task->shop_id = $shop_details->id;
+                    $task->assign_date = $assign_date;
+                    $task->save();
+                }
+
+                return response()->json([
+                    'message' => 'Task has been assigned'
+                ], 200);
+            }
+
+            return response()->json([
+                'message' => 'Invalid request method'
+            ], 400);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function taskDelete($id)
+    {
+        try {
+            EmployeeTask::find($id)
+                // ->whereDate('created_at', '=', date("Y-m-d"))
+                ->delete();
+
+            return response()->json([
+                'message' => 'Tasks for the day have been deleted'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+}
