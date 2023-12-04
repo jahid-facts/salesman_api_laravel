@@ -35,6 +35,7 @@ Route::post('/add-user', [UserApiController::class, 'addUser']);
 Route::put('/update-users/{id}', [UserApiController::class, 'updateUser']);
 Route::put('/status-user/{id}', [UserApiController::class, 'statusUser']);
 Route::delete('/delete-user/{id}', [UserApiController::class, 'deleteUser']);
+Route::post('/empty-deviceId-user/{id}', [UserApiController::class, 'deviceIdEmpty']);
 
 Route::post('/user-login', [UserApiController::class, 'userLogin']);
 Route::post('/admin-login', [UserApiController::class, 'adminLogin']);

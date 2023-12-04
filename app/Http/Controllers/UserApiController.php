@@ -225,6 +225,22 @@ class UserApiController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+    public function deviceIdEmpty(Request $request, $id)
+    {
+        try {
+            $user = User::findOrFail($id);
+
+            $user->update([
+                'deviceId' => null,
+            ]);
+
+            return response()->json([
+                'message' => 'User device id is null'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 
     public function deleteUser($id)
     {
