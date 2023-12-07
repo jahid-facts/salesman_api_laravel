@@ -37,7 +37,6 @@ class UserApiController extends Controller
     public function addUser(Request $request)
     {
         try {
-            // if ($request->isMethod('POST')) {
                 $validator = Validator::make($request->all(), [
                     'name' => 'required',
                     'email' => 'required|email|unique:users',
@@ -62,26 +61,20 @@ class UserApiController extends Controller
                     'user' => $user,
                     'message' => 'User has been added'
                 ], 200);
-            // }
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
+
     public function updateUser(Request $request, $id)
     {
         try {
-            if ($request->isMethod('PUT')) {
-                // Uncomment the validator if needed
                 $validator = Validator::make($request->all(), [
                     'name' => 'required',
-                    'email' => 'required',
+                    'email' => 'required|email|unique:users',
+                    'password' => 'required',
                     'number' => 'required',
-                    'status' => 'required',
-                    'deviceId' => 'required',
-                    'latitude' => 'required',
-                    'longitude' => 'required',
-                    'status' => 'required',
                 ]);
 
                 if ($validator->fails()) {
@@ -93,18 +86,13 @@ class UserApiController extends Controller
                     'name' => $request->name,
                     'number' => $request->number,
                     'email' => $request->email,
-                    'status' => $request->status,
                     'password' => bcrypt($request->password),
                 ]);
 
                 return response()->json([
                     'message' => 'User has been updated'
                 ], 200);
-            }
-
-            return response()->json([
-                'message' => 'Invalid request method'
-            ], 400);
+            
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

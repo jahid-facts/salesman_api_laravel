@@ -9,6 +9,7 @@ use App\Http\Controllers\TaskAssignApiController;
 use App\Http\Controllers\ShopGroupApiController;
 use App\Http\Controllers\DateRangeAssignController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LogoApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,5 +69,11 @@ Route::delete('/user-group-delete/{id}', [GroupAssignApiController::class, 'user
 // date range assign
 Route::get('/user-date-range/{id}', [DateRangeAssignController::class, 'dateRangeUser']);
 Route::post('/assign-date-range', [DateRangeAssignController::class, 'dateRangeAssign']);
+
+
+// date range assign
+Route::get('/get-logo', [LogoApiController::class, 'getLogo']);
+Route::get('/edit-logo/{id}', [LogoApiController::class, 'editLogo']);
+Route::put('/update-logo', [LogoApiController::class, 'updateLogo']);
 
 
