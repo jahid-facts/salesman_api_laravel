@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('number')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
+            $table->string('rc')->nullable();
+            $table->string('rc1')->nullable();
             $table->string('status')->default('active');
             $table->timestamps();
         });

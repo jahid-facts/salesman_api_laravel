@@ -12,6 +12,23 @@ use App\Imports\ShopImport;
 
 class ShopApiController extends Controller
 {
+    public function rcFilter($rc1)
+    {
+        try {
+            $shops = Shop::where('rc1', '=', $rc1)
+                ->orderBy('rc', 'asc')
+                ->get();
+
+            if ($shops->isEmpty()) {
+                return response()->json(['message' => 'No shops found.', 'task'=> [] ], 200);
+            }
+
+            return response()->json(['task' => $shops], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
     public function addShop(Request $request)
     {
         try {

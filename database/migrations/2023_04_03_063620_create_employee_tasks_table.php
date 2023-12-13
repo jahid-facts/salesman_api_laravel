@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigInteger('shop_id')->nullable();
             $table->date('assign_date')->nullable();
             $table->float('distance')->nullable();
+            $table->string('rc')->nullable();
             $table->string('status')->default('in-completed');
             $table->timestamps();
         });

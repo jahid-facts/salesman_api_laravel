@@ -72,8 +72,7 @@ class UserApiController extends Controller
         try {
                 $validator = Validator::make($request->all(), [
                     'name' => 'required',
-                    'email' => 'required|email|unique:users',
-                    'password' => 'required',
+                    'email' => 'required|email',
                     'number' => 'required',
                 ]);
 
@@ -86,11 +85,36 @@ class UserApiController extends Controller
                     'name' => $request->name,
                     'number' => $request->number,
                     'email' => $request->email,
-                    'password' => bcrypt($request->password),
                 ]);
 
                 return response()->json([
                     'message' => 'User has been updated'
+                ], 200);
+            
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+
+    public function updateUserPassword(Request $request, $id)
+    {
+        try {
+                $validator = Validator::make($request->all(), [
+                    'password' => 'required',
+                ]);
+
+                if ($validator->fails()) {
+                    return response()->json($validator->errors()->all(), 422);
+                }
+
+                $user = User::findOrFail($id);
+                $user->update([
+                    'password' => bcrypt($request->password),
+                ]);
+
+                return response()->json([
+                    'message' => 'User password has been updated'
                 ], 200);
             
         } catch (\Exception $e) {

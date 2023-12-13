@@ -33,8 +33,9 @@ Route::get('/get-dashboard-data', [DashboardController::class, 'getDashboardData
 //  user info
 Route::get('/users/{id?}', [UserApiController::class, 'showUser']);
 Route::post('/add-user', [UserApiController::class, 'addUser']);
-Route::put('/update-users/{id}', [UserApiController::class, 'updateUser']);
+Route::put('/update-user/{id}', [UserApiController::class, 'updateUser']);
 Route::put('/status-user/{id}', [UserApiController::class, 'statusUser']);
+Route::put('/update-user-password/{id}', [UserApiController::class, 'updateUserPassword']);
 Route::delete('/delete-user/{id}', [UserApiController::class, 'deleteUser']);
 Route::post('/empty-deviceId-user/{id}', [UserApiController::class, 'deviceIdEmpty']);
 
@@ -43,7 +44,8 @@ Route::post('/admin-login', [UserApiController::class, 'adminLogin']);
 Route::put('/user-location/{id}', [UserApiController::class, 'userLocation']);
 
 // shop info
-Route::get('/shop/{id?}', [ShopApiController::class, 'showShop']);
+Route::get('/shop', [ShopApiController::class, 'showShop']);
+Route::get('/rc-shop/{rc1}', [ShopApiController::class, 'rcFilter']);
 Route::post('/add-shop', [ShopApiController::class, 'addShop']);
 Route::put('/update-shop/{id}', [ShopApiController::class, 'updateShop']);
 Route::put('/status-shop/{id}', [ShopApiController::class, 'statusShop']);

@@ -22,6 +22,8 @@ class ShopImport implements ToModel, WithHeadingRow
             'number'    => $row['number'],
             'latitude'  => $row['latitude'],
             'longitude' => $row['longitude'],
+            'rc' => $row['rc'],
+            'rc1' => $row['rc1'],
             'status'    => $row['status'],
         ]);
     }

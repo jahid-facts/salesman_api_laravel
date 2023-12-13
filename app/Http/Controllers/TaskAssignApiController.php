@@ -28,6 +28,7 @@ class TaskAssignApiController extends Controller
         try {
             $tasks = EmployeeTask::where('user_id', $id)
                 ->whereDate('assign_date', '=', $date)
+                ->orderBy('rc', 'asc')
                 ->with('assignByShop')
                 ->get();
 
@@ -65,6 +66,7 @@ class TaskAssignApiController extends Controller
                     $task->user_id = $user_id;
                     $task->shop_id = $shop_details->id;
                     $task->assign_date = $assign_date;
+                    $task->rc = $shop_details->rc;
                     $task->save();
                 }
 

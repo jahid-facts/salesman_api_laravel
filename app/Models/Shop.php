@@ -16,6 +16,9 @@ class Shop extends Model
         'address',
         'latitude',
         'longitude',
+        'longitude',
+        'rc',
+        'rc1',
         'status',
     ];
 
