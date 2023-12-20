@@ -16,6 +16,7 @@ class ShopApiController extends Controller
     {
         try {
             $shops = Shop::where('rc1', '=', $rc1)
+                ->where('status', '=', "active")
                 ->orderBy('rc', 'asc')
                 ->get();
 
