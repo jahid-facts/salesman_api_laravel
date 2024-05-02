@@ -15,6 +15,6 @@ use App\Models\User;
 */
 
 Route::get('/', function () {
-    return $data = User::all();
+    return "server is working";
     return view('welcome');
 });

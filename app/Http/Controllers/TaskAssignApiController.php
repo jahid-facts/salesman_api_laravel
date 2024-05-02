@@ -82,6 +82,48 @@ class TaskAssignApiController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+    
+        public function updateTaskStatus(Request $request, $id)
+        {
+            try {
+                // Validate the request
+                $validator = Validator::make($request->all(), [
+                    'status' => 'required',
+                ]);
+        
+                // If validation fails, return error response
+                if ($validator->fails()) {
+                    return response()->json($validator->errors()->all(), 422);
+                }
+        
+                // Update user information if userId is provided
+                if ($request->has('userId')) {
+                    $user = User::findOrFail($request->userId);
+                    if ($user) {
+                        $user->update([
+                            'latitude' => $request->latitude,
+                            'longitude' => $request->longitude,
+                        ]);
+                    }
+                }
+        
+                // Update EmployeeTask status
+                EmployeeTask::where('id', $id)->update([
+                    'status' => $request->status,
+                    'distance' => $request->distance,
+                ]);
+        
+                // Return success response
+                return response()->json([
+                    'message' => 'EmployeeTask status has been updated'
+                ], 202);
+            } catch (\Exception $e) {
+                // Return error response in case of exception
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+        }
+
+
 
     public function taskDelete($id)
     {

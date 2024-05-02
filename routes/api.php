@@ -26,7 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// dashboar 
+// dashboar
 Route::get('/get-dashboard-data', [DashboardController::class, 'getDashboardData']);
 
 
@@ -45,6 +45,7 @@ Route::put('/user-location/{id}', [UserApiController::class, 'userLocation']);
 
 // shop info
 Route::get('/shop', [ShopApiController::class, 'showShop']);
+Route::delete('/shop-on-delete', [ShopApiController::class, 'onDeleteShop']);
 Route::get('/rc-shop/{rc1}', [ShopApiController::class, 'rcFilter']);
 Route::post('/add-shop', [ShopApiController::class, 'addShop']);
 Route::put('/update-shop/{id}', [ShopApiController::class, 'updateShop']);
@@ -57,6 +58,7 @@ Route::get('/task/{id?}', [TaskAssignApiController::class, 'showTask']);
 Route::get('/find-task/{id}/{date}', [TaskAssignApiController::class, 'findTask']);
 Route::post('/task-assign', [TaskAssignApiController::class, 'taskAssign']);
 Route::delete('/task-delete/{id}', [TaskAssignApiController::class, 'taskDelete']);
+Route::put('/update-task-status/{id}', [TaskAssignApiController::class, 'updateTaskStatus']);
 
 // shop group
 Route::get('/shop-group/{id?}', [ShopGroupApiController::class, 'showShopGroup']);

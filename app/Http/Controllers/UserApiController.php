@@ -191,7 +191,7 @@ class UserApiController extends Controller
                             $endLongitude
                         );
 
-                        if ($distance < 20) {
+                        if ($distance < 200) {
                             EmployeeTask::where('id', $task->id)->update([
                                 'distance' => $distance,
                                 'status' => "completed",

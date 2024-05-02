@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Shop;
 use App\Imports\ShopImport;
+use Carbon\Carbon;
 
 
 class ShopApiController extends Controller
@@ -51,7 +52,7 @@ class ShopApiController extends Controller
     {
         try {
             if ($id === null) {
-                $shops = Shop::get();
+                $shops = Shop::whereNot('status','on_delete')->get();
                 return response()->json(['shop' => $shops], 200);
             } else {
                 $shop = Shop::findOrFail($id);
@@ -61,6 +62,23 @@ class ShopApiController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    // find all shop where status is active and update status all on_delete
+    public function onDeleteShop(){
+        try {
+            // Use an associative array to specify the fields to update
+            Shop::where("status", "active")->update([
+                'status' => 'on_delete',
+                'on_deleted_at' => Carbon::now()->toDateTimeString(),
+            ]);
+            return response()->json([
+               'message' => 'Shop status has been updated'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 
 
     public function updateShop(Request $request, $id)
@@ -99,6 +117,8 @@ class ShopApiController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+
 
     public function statusShop(Request $request, $id)
     {
