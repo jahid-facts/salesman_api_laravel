@@ -22,7 +22,7 @@ return new class extends Migration
             $table->date('on_deleted_at')->nullable();
             $table->string('rc')->nullable();
             $table->string('rc1')->nullable();
-            $table->string('status')->default('active');
+            $table->string('status')->default('active')->nullable();
             $table->timestamps();
         });
 
