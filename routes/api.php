@@ -45,10 +45,13 @@ Route::put('/user-location/{id}', [UserApiController::class, 'userLocation']);
 
 // shop info
 Route::get('/shop', [ShopApiController::class, 'showShop']);
+Route::get('/shop/{id}', [ShopApiController::class, 'singleShop']);
 Route::delete('/shop-on-delete', [ShopApiController::class, 'onDeleteShop']);
+Route::delete('/shop-on-delete-by-rc/{rc}', [ShopApiController::class, 'onDeleteShopByRc']);
 Route::get('/rc-shop/{rc1}', [ShopApiController::class, 'rcFilter']);
 Route::post('/add-shop', [ShopApiController::class, 'addShop']);
 Route::put('/update-shop/{id}', [ShopApiController::class, 'updateShop']);
+Route::put('/update-shops/{id}', [ShopApiController::class, 'updateShops']);
 Route::put('/status-shop/{id}', [ShopApiController::class, 'statusShop']);
 Route::delete('/delete-shop/{id}', [ShopApiController::class, 'deleteShop']);
 
